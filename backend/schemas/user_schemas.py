@@ -29,7 +29,9 @@ class UserUpdateModel(BaseModel):
     phone: Optional[str] = None
     email: Optional[str] = None
     
-
+class UserLoginModel(BaseModel):
+    email: EmailStr
+    password: str
 
 class Token(BaseModel):
     access_token: str

@@ -5,7 +5,6 @@ from sqlalchemy import pool
 from backend.dependencies import DATABASE_URL,Base
 from backend.models.user_model import User
 from backend.models.branch_model import Branch
-from backend.models.vehicle_model import Vehicle
 from backend.models.courier_model import Courier
 from backend.models.shipment_model import Shipment, ShipmentStatus
 from backend.models.route_model import Route

@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from ..dependencies import logger
 from ..models.user_model import User
-from ..schemas.user_schemas import UserCreate,Token
+from ..schemas.user_schemas import UserCreate,Token,UserLoginModel
 from ..services.auth_service import *
 from ..services.utils import db_dependency,user_dependency
 
@@ -50,6 +50,26 @@ async def register_user(user: UserCreate, db: db_dependency, background_tasks: B
     logger.info(f"Користувача {user.email} зареєстровано успішно")
     return {"message": "Користувач був успішно зареєстрований"}
 
+
+@router.post("/login", response_model=Token)
+async def login_for_access_token(form_data: UserLoginModel,
+                                 db: db_dependency):
+    logger.info(f"Аутентифікація користувача: {form_data.email}")
+    
+    user = authenticate_user(form_data.email, form_data.password, db)
+    if not user:
+        logger.warning("Не вдалося автентифікувати користувача")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate user')
+    
+    token = create_access_token(
+        user.email,
+        user.id,
+        user.role,
+        timedelta(minutes=20)
+    )
+    
+    logger.info(f"Користувач {user.email} успішно отримав токен")
+    return {'access_token': token, 'token_type': 'bearer'}
 
 
 @router.post("/token", response_model=Token)

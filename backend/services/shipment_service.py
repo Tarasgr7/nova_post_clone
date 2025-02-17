@@ -1,8 +1,9 @@
 import uuid
 from ..models.shipment_model import Shipment,ShipmentStatus
 from fastapi import HTTPException,status
+
 def create_tracking_number():
-    return str(uuid.uuid4())[:18] 
+    return str(uuid.uuid4().int)[:18] 
 
 def existing_status(status):
     statuses = ["created","shipped","in_transit","delivered","cancelled"]

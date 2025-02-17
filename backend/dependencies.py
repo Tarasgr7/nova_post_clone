@@ -24,7 +24,6 @@ Base = declarative_base()
 
 
 from .models.branch_model import Branch
-from .models.vehicle_model import Vehicle
 from .models.courier_model import Courier
 from .models.shipment_model import Shipment, ShipmentStatus
 from .models.route_model import Route
