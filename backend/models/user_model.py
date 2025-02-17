@@ -1,11 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, TIMESTAMP,Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, TIMESTAMP
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from ..dependencies import Base
-import enum
-class RoleEnum(str, enum.Enum):
-    ADMIN = "admin"
-    USER = "user"
+
 
 class User(Base):
     __tablename__ = "users"
@@ -15,7 +12,7 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     phone = Column(String, unique=True, nullable=False)
     password_hash = Column(String, nullable=False)
-    role = Column(Enum(RoleEnum), default=RoleEnum.USER)  # sender, receiver, courier, admin
+    role = Column(String, default="user")
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
     shipments_sent = relationship("Shipment", foreign_keys="[Shipment.sender_id]", back_populates="sender")

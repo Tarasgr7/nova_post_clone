@@ -1,7 +1,8 @@
 from logging.config import fileConfig
-from backend.dependencies import Base,DATABASE_URL
+
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+from backend.dependencies import DATABASE_URL,Base
 from backend.models.user_model import User
 from backend.models.branch_model import Branch
 from backend.models.vehicle_model import Vehicle
@@ -9,8 +10,6 @@ from backend.models.courier_model import Courier
 from backend.models.shipment_model import Shipment, ShipmentStatus
 from backend.models.route_model import Route
 from backend.models.payment_model import Payment
-
-
 from alembic import context
 
 # this is the Alembic Config object, which provides
@@ -22,9 +21,14 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
+# add your model's MetaData object here
+# for 'autogenerate' support
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
 config.set_main_option("sqlalchemy.url",DATABASE_URL)
 
 target_metadata = Base.metadata
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

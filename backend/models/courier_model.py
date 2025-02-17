@@ -7,8 +7,9 @@ class Courier(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    vehicle_id = Column(Integer, ForeignKey("vehicles.id"), nullable=True)
+    vehicle_id = Column(Integer, ForeignKey("vehicles.id"), nullable=True,default=None)
     active = Column(Boolean, default=True)
+    locate=Column(String, nullable=False)
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
     user = relationship("User")

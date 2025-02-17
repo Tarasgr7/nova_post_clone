@@ -16,23 +16,11 @@ import uuid
 
 router=APIRouter(
   prefix="/auth",
-  tags=["auth",]
+  tags=["Auth",]
 )
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
-@router.get('/users', status_code=status.HTTP_200_OK)
-async def read_all(db: db_dependency):
-    logger.info("Отримання всіх користувачів з бази даних")
-    
-    users = db.query(User).all()
-    
-    if users:
-        logger.info(f"Знайдено {len(users)} користувачів")
-    else:
-        logger.warning("Користувачів не знайдено")
-    
-    return users
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register_user(user: UserCreate, db: db_dependency, background_tasks: BackgroundTasks):
@@ -84,9 +72,3 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     logger.info(f"Користувач {user.email} успішно отримав токен")
     return {'access_token': token, 'token_type': 'bearer'}
 
-
-
-@router.get("/user_info",status_code=status.HTTP_200_OK)
-async def get_user_info(user: user_dependency):
-    logger.info(f"Отримання інформації про користувача: {user['email']}")
-    return user

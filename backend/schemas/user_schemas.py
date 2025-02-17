@@ -24,6 +24,12 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class UserUpdateModel(BaseModel):
+    full_name: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
+    
+
 
 class Token(BaseModel):
     access_token: str
@@ -31,3 +37,4 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
+

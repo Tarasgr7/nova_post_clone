@@ -13,10 +13,11 @@ class Shipment(Base):
     branch_from = Column(Integer, ForeignKey("branches.id"), nullable=True)
     branch_to = Column(Integer, ForeignKey("branches.id"), nullable=True)
     weight = Column(DECIMAL(10,2), nullable=False)
-    dimensions = Column(String)
+    length = Column(DECIMAL(10, 2), nullable=False)
+    width = Column(DECIMAL(10, 2), nullable=False)
     price = Column(DECIMAL(10,2), nullable=False)
     payment_status = Column(String, nullable=False, default="unpaid")  # paid, unpaid
-    status = Column(String, nullable=False, default="created")  # created, in transit, arrived, delivered, canceled
+    status = Column(String, nullable=False, default="created")  
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
     sender = relationship("User", foreign_keys=[sender_id], back_populates="shipments_sent")
