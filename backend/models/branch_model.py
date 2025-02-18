@@ -16,5 +16,7 @@ class Branch(Base):
     shipments_from = relationship("Shipment", foreign_keys="[Shipment.branch_from]", back_populates="branch_from_rel")
     shipments_to = relationship("Shipment", foreign_keys="[Shipment.branch_to]", back_populates="branch_to_rel")
     location = relationship("Shipment", foreign_keys="[Shipment.location]", back_populates="location_rel")
-    routes = relationship("Route", foreign_keys="[Route.branch_from]", back_populates="branch_from_rel")
-    routes_to = relationship("Route", foreign_keys="[Route.branch_to]", back_populates="branch_to_rel")
+
+    routes_from = relationship("Route", foreign_keys="[Route.branch_from_id]", back_populates="branch_from")
+    routes_to = relationship("Route", foreign_keys="[Route.branch_to_id]", back_populates="branch_to")
+

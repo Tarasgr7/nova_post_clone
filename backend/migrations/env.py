@@ -7,9 +7,10 @@ from backend.models.user_model import User
 from backend.models.branch_model import Branch
 from backend.models.courier_model import Courier
 from backend.models.shipment_model import Shipment, ShipmentStatus
-from backend.models.route_model import Route
+from backend.models.route_model import Route,RouteShipment
 from backend.models.payment_model import Payment
 from backend.models.worker_model import Worker
+
 from alembic import context
 
 # this is the Alembic Config object, which provides

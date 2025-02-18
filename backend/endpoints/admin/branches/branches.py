@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException,status
-from ..dependencies import logger
-from ..models.branch_model import Branch
-from ..schemas.branch_schema import BranchCreate
-from ..services.utils import db_dependency,user_dependency,check_admin_role
+from ....dependencies import logger
+from ....models.branch_model import Branch
+from ....schemas.branch_schema import BranchCreate
+from ....services.utils import db_dependency,user_dependency,check_admin_role
 
 
-router = APIRouter(prefix="/branches", tags=["Branches"])
+router = APIRouter()
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)

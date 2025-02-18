@@ -1,14 +1,11 @@
 from fastapi import APIRouter,HTTPException,status
-from ..models.worker_model import Worker
-from ..models.user_model import User
-from ..services.utils import user_dependency, db_dependency,check_admin_role
-from ..schemas.worker_schemas import WorkerCreate,WorkerUpdate
-from ..dependencies import logger
+from ....models.worker_model import Worker
+from ....models.user_model import User
+from ....services.utils import user_dependency, db_dependency,check_admin_role
+from ....schemas.worker_schemas import WorkerCreate,WorkerUpdate
+from ....dependencies import logger
 
-router = APIRouter(
-  prefix="/workers",
-  tags=["Workers"],
-)
+router = APIRouter()
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def create_worker(worker: WorkerCreate, user: user_dependency,db:db_dependency):

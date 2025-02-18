@@ -26,6 +26,8 @@ class Shipment(Base):
     branch_from_rel = relationship("Branch", foreign_keys=[branch_from], back_populates="shipments_from")
     branch_to_rel = relationship("Branch", foreign_keys=[branch_to], back_populates="shipments_to")
     location_rel = relationship("Branch", foreign_keys=[location], back_populates="location")
+    route_shipments = relationship("RouteShipment", back_populates="shipment")
+
 
 class ShipmentStatus(Base):
     __tablename__ = "shipment_statuses"

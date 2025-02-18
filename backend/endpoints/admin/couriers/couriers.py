@@ -1,15 +1,12 @@
 from fastapi import APIRouter,status,HTTPException
-from ..dependencies import logger
-from ..models.user_model import User
-from ..models.courier_model import Courier
-from ..schemas.courier_schema import CourierCreate,CourierUpdate
-from ..services.utils import user_dependency,db_dependency,check_admin_role
+from ....dependencies import logger
+from ....models.user_model import User
+from ....models.courier_model import Courier
+from ....schemas.courier_schema import CourierCreate,CourierUpdate
+from ....services.utils import user_dependency,db_dependency,check_admin_role
 
 
-router = APIRouter(
-  prefix="/courier",
-  tags=["Courier"],
-)
+router = APIRouter()
 
 @router.post("/",status_code=status.HTTP_201_CREATED)
 async def create_courier(courier_data: CourierCreate, db:db_dependency,user:user_dependency):

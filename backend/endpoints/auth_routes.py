@@ -14,10 +14,7 @@ import uuid
 
 
 
-router=APIRouter(
-  prefix="/auth",
-  tags=["Auth",]
-)
+router=APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 

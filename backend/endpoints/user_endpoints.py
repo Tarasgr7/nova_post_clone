@@ -5,7 +5,7 @@ from ..models.user_model import User
 from ..schemas.user_schemas import UserUpdateModel
 from ..dependencies import logger
 
-router = APIRouter(prefix="/users", tags=["Users"])
+router = APIRouter()
 
 
 
