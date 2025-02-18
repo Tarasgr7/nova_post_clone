@@ -12,6 +12,7 @@ class Shipment(Base):
     receiver_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     branch_from = Column(Integer, ForeignKey("branches.id"), nullable=True)
     branch_to = Column(Integer, ForeignKey("branches.id"), nullable=True)
+    location=Column(Integer, ForeignKey("branches.id"), nullable=True)
     weight = Column(DECIMAL(10,2), nullable=False)
     length = Column(DECIMAL(10, 2), nullable=False)
     width = Column(DECIMAL(10, 2), nullable=False)
@@ -24,6 +25,7 @@ class Shipment(Base):
     receiver = relationship("User", foreign_keys=[receiver_id], back_populates="shipments_received")
     branch_from_rel = relationship("Branch", foreign_keys=[branch_from], back_populates="shipments_from")
     branch_to_rel = relationship("Branch", foreign_keys=[branch_to], back_populates="shipments_to")
+    location_rel = relationship("Branch", foreign_keys=[location], back_populates="location")
 
 class ShipmentStatus(Base):
     __tablename__ = "shipment_statuses"

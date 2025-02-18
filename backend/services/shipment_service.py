@@ -6,7 +6,7 @@ def create_tracking_number():
     return str(uuid.uuid4().int)[:18] 
 
 def existing_status(status):
-    statuses = ["created","shipped","in_transit","delivered","cancelled"]
+    statuses = ["created","shipped","in_transit","delivered","cancelled","awaiting shipment"]
     if status in statuses:
         return True
     else:

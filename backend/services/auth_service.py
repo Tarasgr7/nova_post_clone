@@ -31,11 +31,6 @@ def verify_password(plain_password, hashed_password):
 def hash_password(password):
     return pwd_context.hash(password)
 
-async def is_admin(user_id,db):
-   user=db.query(User).filter(User.id==user_id).first()
-   if not user or not user.is_admin:
-     return False
-   return True
 
 
 def authenticate_user(email:str,password:str,db):

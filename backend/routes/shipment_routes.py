@@ -24,7 +24,7 @@ async def create_shipment(shipment_data: ShipmentCreate, db: db_dependency, user
         weight=shipment_data.weight,
         length=shipment_data.length,
         width=shipment_data.width,
-        price=shipment_data.price,
+        price=shipment_data.price 
     )
     
     logger.info(f"Створення нової посилки: {shipment_data.receiver_id}")

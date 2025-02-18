@@ -28,3 +28,4 @@ from .models.courier_model import Courier
 from .models.shipment_model import Shipment, ShipmentStatus
 from .models.route_model import Route
 from .models.payment_model import Payment
+from .models.worker_model import Worker

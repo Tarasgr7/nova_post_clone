@@ -11,3 +11,16 @@ class ShipmentCreate(BaseModel):
 
 class ShipmentUpdate(BaseModel):
   status:str
+
+
+class ShipmentCreateAtBranch(BaseModel):
+  sender_id:int
+  receiver_id:int
+  branch_from:int
+  branch_to:int
+  weight: float
+  length: float
+  width: float
+  price:float
+  payment_status : str ='unpaid'
+  status: str ='awaiting shipment'

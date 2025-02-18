@@ -3,7 +3,6 @@ from ..dependencies import logger
 from ..models.branch_model import Branch
 from ..schemas.branch_schema import BranchCreate
 from ..services.utils import db_dependency,user_dependency,check_admin_role
-from ..services.auth_service import is_admin
 
 
 router = APIRouter(prefix="/branches", tags=["Branches"])

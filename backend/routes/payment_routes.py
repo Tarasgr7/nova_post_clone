@@ -2,25 +2,22 @@ from fastapi import APIRouter, status, HTTPException
 from ..dependencies import logger
 from ..models.payment_model import Payment
 from ..schemas.payment_schema import PaymentCreate
-from ..services.utils import db_dependency
+from ..services.utils import db_dependency,user_dependency
 from ..models.shipment_model import Shipment
-
+from ..services.payment_service import is_sender_or_receiver,is_shipment_paid
 router = APIRouter(
     prefix="/payment",
     tags=["Payment"],
 )
 
 @router.post("/{shipment_id}", status_code=status.HTTP_201_CREATED)
-def create_payment(shipment_id: int, payment_data: PaymentCreate, db: db_dependency):
+def create_payment(shipment_id: int, payment_data: PaymentCreate, db: db_dependency,user: user_dependency):
     shipment = db.query(Shipment).filter(Shipment.id == shipment_id).first()
     if not shipment:
         logger.warning(f"Спроба оплати для неіснуючої посилки ID: {shipment_id}")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Посилку не знайдено")
-    
-    if db.query(Payment).filter(Payment.shipment_id == shipment_id).first():
-        logger.warning(f"Спроба повторної оплати для посилки ID: {shipment_id}")
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Оплата вже існує")
-    
+    is_shipment_paid(shipment_id,db)
+    is_sender_or_receiver(shipment_id,user.get("id"),db)
     payment = Payment(
         shipment_id=shipment_id,
         amount=payment_data.amount,
