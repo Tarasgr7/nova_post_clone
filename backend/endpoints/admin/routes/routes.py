@@ -3,6 +3,7 @@ from ....models.route_model import Route,RouteShipment
 from ....models.shipment_model import Shipment
 from ....schemas.route_schemas import RouteCreate,RouteShipmentCreate
 from ....services.utils import db_dependency, user_dependency, check_admin_role
+from ....services.route_service import check_branch
 
 
 
@@ -55,6 +56,11 @@ async def create_route_shipment( shipment_data: RouteShipmentCreate, db: db_depe
     shipment = db.query(Shipment).filter(Shipment.id == shipment_data.shipment_id).first()#+
     if not route:#+
         raise HTTPException(status_code=404, detail="Маршрут не знайдено")#+
+    if not shipment:#+
+        raise HTTPException(status_code=404, detail="Замовлення не знайдено")#+
+    if shipment.status != "awaiting shipment":
+        raise HTTPException(status_code=400, detail="Замовлення не можна додати у доставку, оскільки його статус не є 'awaiting shipment'")#+
+    check_branch(route, shipment)#+
     route_shipment = RouteShipment(route_id=shipment_data.route_id, shipment_id=shipment_data.shipment_id)#+
     db.add(route_shipment)#+
     db.commit()#+
@@ -67,16 +73,27 @@ def get_route_shipments(route_id: int, db: db_dependency, user: user_dependency)
     route_shipments = db.query(RouteShipment).filter(RouteShipment.route_id == route_id).all()
     return route_shipments
 
-@router.put("/route/{route_id}/courier",status_code=status.HTTP_200_OK)
+@router.put("/route/{route_id}/courier", status_code=status.HTTP_200_OK)
 def update_route_courier(route_id: int, courier_id: int, db: db_dependency, user: user_dependency):
     check_admin_role(user)
+
+    # Перевіряємо, чи існує маршрут
     route = db.query(Route).filter(Route.id == route_id).first()
     if not route:
         raise HTTPException(status_code=404, detail="Маршрут не знайдено")
+
+    # Перевіряємо, чи кур'єр вже має активний маршрут
+    active_route = db.query(Route).filter(Route.courier_id == courier_id, Route.status != "completed").first()
+    if active_route:
+        raise HTTPException(status_code=400, detail="Кур'єр вже призначений на інший активний маршрут")
+
+    # Призначаємо кур'єра на маршрут
     route.courier_id = courier_id
     db.commit()
     db.refresh(route)
+    
     return route
+
 
 @router.put("/route/{route_id}/status", status_code=status.HTTP_200_OK)
 def update_route_status(route_id: int, status: str, db: db_dependency, user: user_dependency):

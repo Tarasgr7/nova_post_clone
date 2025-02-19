@@ -7,7 +7,6 @@ class ShipmentCreate(BaseModel):
   weight: float
   length: float
   width: float
-  price:float
 
 class ShipmentUpdate(BaseModel):
   status:str
@@ -21,6 +20,13 @@ class ShipmentCreateAtBranch(BaseModel):
   weight: float
   length: float
   width: float
-  price:float
   payment_status : str ='unpaid'
   status: str ='awaiting shipment'
+
+
+class ShipmentCalculate(BaseModel):
+    branch_from_id: int
+    branch_to_id: int
+    weight: float
+    length: float
+    width: float

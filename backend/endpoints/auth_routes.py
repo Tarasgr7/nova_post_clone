@@ -8,7 +8,8 @@ from ..dependencies import logger
 from ..models.user_model import User
 from ..schemas.user_schemas import UserCreate,Token,UserLoginModel
 from ..services.auth_service import *
-from ..services.utils import db_dependency,user_dependency
+from ..services.users_service import create_barcode_id
+from ..services.utils import db_dependency,user_dependency,generate_barcode
 
 import uuid
 
@@ -35,12 +36,16 @@ async def register_user(user: UserCreate, db: db_dependency, background_tasks: B
 
     logger.info('Користувач ввів вірну позицію')
     token = str(uuid.uuid4())
+    barcode_id=create_barcode_id()
+    barcode_path=generate_barcode(barcode_id,barcode_id,True)
     create_user = User(
         email=user.email,
         password_hash=hash_password(user.password),
         full_name=user.full_name,
         phone=user.phone,
-        role=user.role
+        role=user.role,
+        barcode_id=barcode_id,
+        barcode_path=barcode_path
     )
     db.add(create_user)
     db.commit()

@@ -28,7 +28,10 @@ def create_branch(branch_data: BranchCreate, db: db_dependency, user: user_depen
     return new_branch
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def get_branches(db: db_dependency):
+def get_branches(db: db_dependency,user:user_dependency):
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Авторизація обов'язкова")
+    check_admin_role(user)
     branches = db.query(Branch).all()
     logger.info(f"Отримано список всіх відділень: знайдено {len(branches)} відділень.")
     return branches

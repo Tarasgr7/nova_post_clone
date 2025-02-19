@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, Boolean, TIMESTAMP, Interval
+from sqlalchemy import Column, Integer, String, ForeignKey, DECIMAL, Boolean, TIMESTAMP, Interval,Numeric
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from ..dependencies import Base
@@ -11,6 +11,8 @@ class Branch(Base):
     address = Column(String, nullable=False)
     city = Column(String, nullable=False)
     phone = Column(String)
+    latitude = Column(Numeric(9, 6), nullable=False)  # Точність до 6 знаків після коми
+    longitude = Column(Numeric(9, 6), nullable=False)
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
     shipments_from = relationship("Shipment", foreign_keys="[Shipment.branch_from]", back_populates="branch_from_rel")

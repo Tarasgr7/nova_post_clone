@@ -5,6 +5,9 @@ class BranchBase(BaseModel):
     city: str
     address: str
     phone:str
+    latitude: float
+    longitude: float
+
 
 class BranchCreate(BranchBase):
     pass
@@ -14,3 +17,4 @@ class BranchResponse(BranchBase):
 
     class Config:
         from_attributes = True
+

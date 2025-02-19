@@ -20,7 +20,7 @@ from jose import jwt,JWTError
 from email.message import EmailMessage
 
 
-oauth2_bearer=OAuth2PasswordBearer(tokenUrl='auth/token')
+oauth2_bearer=OAuth2PasswordBearer(tokenUrl='/api/v1/auth/token')
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

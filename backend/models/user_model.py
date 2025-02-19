@@ -13,6 +13,8 @@ class User(Base):
     phone = Column(String, unique=True, nullable=False)
     password_hash = Column(String, nullable=False)
     role = Column(String, default="user")
+    barcode_id=Column(String, nullable=True)
+    barcode_path=Column(String, nullable=True)
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
     shipments_sent = relationship("Shipment", foreign_keys="[Shipment.sender_id]", back_populates="sender")

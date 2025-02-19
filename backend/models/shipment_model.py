@@ -18,7 +18,8 @@ class Shipment(Base):
     width = Column(DECIMAL(10, 2), nullable=False)
     price = Column(DECIMAL(10,2), nullable=False)
     payment_status = Column(String, nullable=False, default="unpaid")  # paid, unpaid
-    status = Column(String, nullable=False, default="created")  
+    status = Column(String, nullable=False, default="created")
+    barcode_path=Column(String, nullable=True)  
     created_at = Column(TIMESTAMP, default=datetime.utcnow)
 
     sender = relationship("User", foreign_keys=[sender_id], back_populates="shipments_sent")

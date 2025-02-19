@@ -61,7 +61,7 @@ async def update_courier(courier_id: int, courier_data: CourierUpdate, db: db_de
     courier.locate = courier_data.locate
   if courier_data.active is not None:
     courier.active = courier_data.active
-  courier.vehicle_id = courier_data.vehicle_id
+  courier.vehicle = courier_data.vehicle
   db.commit()
   db.refresh(courier)
   return courier
