@@ -21,7 +21,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register_user(user: UserCreate, db: db_dependency, background_tasks: BackgroundTasks):
+async def register_user(user: UserCreate, db: db_dependency):
     logger.info(f"Реєстрація нового користувача: {user.email}")
     
     if db.query(User).filter_by(email=user.email).first():
@@ -75,13 +75,12 @@ async def login_for_access_token(form_data: UserLoginModel,
 
 
 @router.post("/token", response_model=Token)
-async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-                                 db: db_dependency):
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()],db: db_dependency):
     logger.info(f"Аутентифікація користувача: {form_data.username}")
     
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
-        logger.warning("Не вдалося автентифікувати користувача")
+        logger.warning(" Не вдалося автентифікувати користувача")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate user')
     
     token = create_access_token(
