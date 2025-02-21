@@ -3,8 +3,7 @@ import uuid
 from ..models.shipment_model import Shipment,ShipmentStatus
 from fastapi import HTTPException
 from ..dependencies import logger
-from ..models.courier_model import Courier
-from ..models.route_model import Route, RouteShipment
+
 
 
 def create_tracking_number():
